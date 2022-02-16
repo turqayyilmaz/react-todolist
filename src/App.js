@@ -1,25 +1,67 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import Footer from "./components/Footer/index";
+import Header from "./components/Header/index";
+import { TodoList, TodoListFooter } from "./components/TodoList";
+import { useState, useEffect } from "react";
 
-function App() {
+import "./App.css";
+export default function App() {
+  const initialValue = [
+    { todo: "Learn JavaScript", isDone: false, todoId: 1 },
+    { todo: "Learn React", isDone: true, todoId: 2 },
+    { todo: "Have a life!", isDone: false, todoId: 3 },
+  ];
+  const [todoList, setTodoList] = useState(initialValue);
+  const [addText, setAddText] = useState("");
+  const [filteredTodos, setFilteredTodos] = useState([]);
+  const [filterStatus, setFilterStatus] = useState("All");
+
+  //UseEffect
+  useEffect(() => {
+    filter();
+  }, [todoList, filterStatus]);
+
+
+
+  const filter = () => {
+    switch (filterStatus) {
+      case "Completed":
+        setFilteredTodos(todoList.filter((todo) => todo.isDone === true));
+        break;
+
+      case "Active":
+        setFilteredTodos(todoList.filter((todo) => todo.isDone === false));
+        break;
+
+      default:
+        setFilteredTodos(todoList);
+        break;
+    }
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <section className="todoapp">
+        <Header
+          setTodoList={setTodoList}
+          todoList={todoList}
+          setAddText={setAddText}
+          addText={addText}
+        />
+        <TodoList
+          setTodoList={setTodoList}
+          todoList={todoList}
+          filteredTodos={filteredTodos}
+        />
+        <TodoListFooter
+          setTodoList={setTodoList}
+          todoList={todoList}
+          filteredTodos={filteredTodos}
+          setFilterStatus={setFilterStatus}
+          filterStatus={filterStatus}
+        />
+      </section>
+
+      <Footer />
     </div>
   );
 }
-
-export default App;
