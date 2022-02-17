@@ -15,6 +15,8 @@ export default function App() {
   const [addText, setAddText] = useState("");
   const [filteredTodos, setFilteredTodos] = useState([]);
   const [filterStatus, setFilterStatus] = useState("All");
+  const [check,setCheck]=useState(false);
+
 
   //UseEffect
   useEffect(() => {
@@ -51,6 +53,8 @@ export default function App() {
           setTodoList={setTodoList}
           todoList={todoList}
           filteredTodos={filteredTodos}
+          check={check}
+          setCheck={setCheck}
         />
         <TodoListFooter
           setTodoList={setTodoList}
